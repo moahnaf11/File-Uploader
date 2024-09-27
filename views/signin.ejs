@@ -1,11 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/output.css" />
     <title>Sign In</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body class="text-zinc-200 bg-gray-600 h-screen">
+    <%- include("appHeader") %>
+    <main class="bg-gray-900 h-full p-3 flex justify-center items-center">
+        <!-- sign in form validation JS -->
+        <% let email ,password %>
+        <% if (locals.error && locals.error.length > 0) { %>
+          <% locals.error.forEach(error => { 
+              const message = error.msg + " " + "your input was " + (error.value || "an empty string")  
+              if (error.path === "email") { 
+                email = message; 
+              } else if (error.path === "password") { 
+                password = message; 
+              }
+          }) %>
+      <% } %>
+
+
+
+      <form
+        class="rounded-3xl bg-white text-black min-w-[40%] flex flex-col gap-3 p-3"
+        action="/sign-in"
+        method="post"
+      >
+        <h1
+          class="font-bold text-2xl border-b-2 border-black max-w-max text-black"
+        >
+          Log In
+        </h1>
+        <div class="flex flex-col">
+          <label for="email">Email <span class="text-red-600">*</span></label>
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="ahnaf@example.com"
+          />
+          <span class="text-red-600"><%= email || ""  %></span>
+        </div>
+
+        <div class="flex flex-col">
+          <label for="password"
+            >Password <span class="text-red-600">*</span></label
+          >
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="*****"
+          />
+          <span class="text-red-600"><%= password || ""  %></span>
+        </div>
+
+        <div class="flex">
+          <div class="flex flex-1 justify-between gap-6 items-center font-bold">
+            Don't have an account?
+            <a
+              class="font-normal shadow-2xl shadow-cyan-700/80 hover:bg-white hover:text-blue-800 hover:border-blue-700 border-2 rounded-full px-3 py-2 bg-blue-400"
+              href="/sign-up"
+              >Sign Up</a
+            >
+          </div>
+        </div>
+
+        <div class="flex flex-1">
+          <button
+            class="border-2 hover:bg-white hover:border-blue-700 shadow-2xl flex-1 py-2 shadow-cyan-700/80 rounded-full bg-blue-400 hover:text-blue-800"
+            type="submit"
+          >
+            Log In
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
 </html>

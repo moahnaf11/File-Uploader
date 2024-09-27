@@ -81,5 +81,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 
 
+// global error middleware 
+app.use((err, req, res, next) => {
+  console.log("ERROR DETECTED!", err);
+})
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));

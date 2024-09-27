@@ -1,52 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/output.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/output.css" />
     <title>Sign Up</title>
-</head>
-<body class="h-screen text-zinc-200 bg-gray-600">
+  </head>
+  <body class="h-screen text-zinc-200 bg-gray-600">
     <%- include("appHeader") %>
     <main class="h-full bg-gray-900 p-3 flex justify-center">
-        <form class="shadow-lg shadow-gray-500/50 bg-white text-black p-3 max-h-96 flex flex-col gap-2" action="/sign-up" method="post">
-            <h1 class="text-xl font-bold mb-3">Sign Up</h1>
-            <div class="flex items-center gap-3">
-                <label class="min-w-40" for="firstname">First Name <span class="text-red-600">*</span></label>
-                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="text" id="firstname" name="firstname" placeholder="Mohammad">
-                <span></span>
-            </div>
+      <!-- form submission errors -->
+      <% let firstname, lastname, email ,password, confirmPassword %>
+      <% if (locals.error && locals.error.length > 0) { %>
+        <% locals.error.forEach(error => { 
+            const message = error.msg + " " + "your input was " + (error.value || "an empty string")
+            if (error.path === "firstname") {
+                firstname = message; 
+            }   else if (error.path === "lastname") { 
+                lastname = message; 
+            }   else if (error.path === "email") { 
+                email = message; 
+            }   else if (error.path === "password") { 
+                password = message; 
+                confirmPassword = "Confirm Password field can't be empty your input was " + (error.value || "an empty string");
+            }   else { 
+                password = message;
+                confirmPassword = message; 
+            } 
+        }) %>
+    <% } %>
 
-            <div class="flex items-center gap-3">
-                <label class="min-w-40" for="lastname">Last Name <span class="text-red-600">*</span></label>
-                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="text" id="lastname" name="lastname" placeholder="Ahnaf">
-                <span></span>
-            </div>
+      <form
+        class="rounded-3xl shadow-lg shadow-gray-500/50 bg-white text-black p-3 max-h-max flex flex-col gap-5 min-w-[40%]"
+        action="/sign-up"
+        method="post"
+      >
+        <h1 class="border-b-2 border-black max-w-max text-2xl font-bold mb-3">
+          Sign Up
+        </h1>
+        <div class="flex flex-col">
+          <label for="firstname"
+            >First Name <span class="text-red-600">*</span></label
+          >
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="text"
+            id="firstname"
+            name="firstname"
+            placeholder="Mohammad"
+          />
+          <span class="text-red-600"><%= firstname || ""  %></span>
+        </div>
 
-            <div class="flex items-center gap-3">
-                <label class="min-w-40" for="email">Email <span class="text-red-600">*</span></label>
-                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="email" id="email" name="email" placeholder="ahnaf@example.com">
-                <span></span>
-            </div>
+        <div class="flex flex-col">
+          <label for="lastname"
+            >Last Name <span class="text-red-600">*</span></label
+          >
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="text"
+            id="lastname"
+            name="lastname"
+            placeholder="Ahnaf"
+          />
+          <span class="text-red-600"><%= lastname || "" %></span>
+        </div>
 
-            <div class="flex items-center gap-3">
-                <label class="min-w-40" for="password">Password <span class="text-red-600">*</span></label>
-                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="password" id="password" name="password" placeholder="*****">
-                <span></span>
-            </div>
+        <div class="flex flex-col">
+          <label for="email">Email <span class="text-red-600">*</span></label>
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="ahnaf@example.com"
+          />
+          <span class="text-red-600"><%= email || ""  %></span>
+        </div>
 
-            <div class="flex items-center gap-3">
-                <label class="min-w-40" for="confirm">Confirm Password <span class="text-red-600">*</span></label>
-                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"type="password" id="confirm" name="confirm" placeholder="*****">
-                <span></span>
-            </div>
+        <div class="flex flex-col">
+          <label for="password"
+            >Password <span class="text-red-600">*</span></label
+          >
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="*****"
+          />
+          <span class="text-red-600"><%= password || "" %></span>
+        </div>
 
-            <div class="mt-auto flex">
-                <button class="hover:bg-white hover:border-blue-700 hover:border-2 shadow-2xl flex-1 py-2 shadow-cyan-700/80 rounded-full bg-blue-400 hover:text-blue-800" type="submit">Sign up</button>
-            </div>
-        </form>
+        <div class="flex flex-col">
+          <label for="confirm"
+            >Confirm Password <span class="text-red-600">*</span></label
+          >
+          <input
+            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+            type="password"
+            id="confirm"
+            name="confirm"
+            placeholder="*****"
+          />
+          <span class="text-red-600"><%= confirmPassword || "" %></span>
+        </div>
 
+        <div class="flex">
+          <div class="flex flex-1 justify-between gap-6 items-center font-bold">
+            Have an account?
+            <a
+              class="font-normal shadow-2xl shadow-cyan-700/80 hover:bg-white hover:text-blue-800 hover:border-blue-700 border-2 rounded-full px-3 py-2 bg-blue-400"
+              href="/sign-in"
+              >Log In</a
+            >
+          </div>
+        </div>
+
+        <div class="mt-auto flex">
+          <button
+            class="border-2 hover:bg-white hover:border-blue-700 shadow-2xl flex-1 py-2 shadow-cyan-700/80 rounded-full bg-blue-400 hover:text-blue-800"
+            type="submit"
+          >
+            Sign Up
+          </button>
+        </div>
+      </form>
     </main>
-    
-</body>
+  </body>
 </html>
