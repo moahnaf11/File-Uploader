@@ -14,5 +14,25 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id        String   @id @default(uuid())
+  firstname String
+  lastname  String
+  email     String   @unique @db.VarChar(255)
+  password  String
+  folders   Folder[]
+}
+
+model Folder {
+  id     String  @id @default(uuid())
+  name   String
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  files  Files[]
+}
+
+model Files {
+  id       String @id @default(uuid())
+  name     String
+  folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId String
 }

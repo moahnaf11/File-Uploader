@@ -8,7 +8,7 @@
   </head>
   <body class="h-screen text-zinc-200 bg-gray-600">
     <%- include("appHeader") %>
-    <main class="h-full bg-gray-900 p-3 flex justify-center">
+    <main class="box-content h-full bg-gray-900 p-3 flex justify-center items-center">
       <!-- form submission errors -->
       <% let firstname, lastname, email ,password, confirmPassword %>
       <% if (locals.error && locals.error.length > 0) { %>
@@ -31,7 +31,7 @@
     <% } %>
 
       <form
-        class="rounded-3xl shadow-lg shadow-gray-500/50 bg-white text-black p-3 max-h-max flex flex-col gap-5 min-w-[40%]"
+        class="rounded-3xl h-min shadow-lg shadow-gray-500/50 bg-white text-black p-3 flex flex-col gap-2 min-w-[40%]"
         action="/sign-up"
         method="post"
       >
@@ -106,7 +106,7 @@
           <span class="text-red-600"><%= confirmPassword || "" %></span>
         </div>
 
-        <div class="flex">
+        <div class="mt-3 flex">
           <div class="flex flex-1 justify-between gap-6 items-center font-bold">
             Have an account?
             <a
@@ -117,7 +117,7 @@
           </div>
         </div>
 
-        <div class="mt-auto flex">
+        <div class="mt-3 flex">
           <button
             class="border-2 hover:bg-white hover:border-blue-700 shadow-2xl flex-1 py-2 shadow-cyan-700/80 rounded-full bg-blue-400 hover:text-blue-800"
             type="submit"
