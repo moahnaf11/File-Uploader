@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/output.css">
     <title>Sign Up</title>
 </head>
-<body>
+<body class="h-screen text-zinc-200 bg-gray-600">
+    <%- include("appHeader") %>
+    <main class="h-full bg-gray-900 p-3 flex justify-center">
+        <form class="shadow-lg shadow-gray-500/50 bg-white text-black p-3 max-h-96 flex flex-col gap-2" action="/sign-up" method="post">
+            <h1 class="text-xl font-bold mb-3">Sign Up</h1>
+            <div class="flex items-center gap-3">
+                <label class="min-w-40" for="firstname">First Name <span class="text-red-600">*</span></label>
+                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="text" id="firstname" name="firstname" placeholder="Mohammad">
+                <span></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <label class="min-w-40" for="lastname">Last Name <span class="text-red-600">*</span></label>
+                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="text" id="lastname" name="lastname" placeholder="Ahnaf">
+                <span></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <label class="min-w-40" for="email">Email <span class="text-red-600">*</span></label>
+                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="email" id="email" name="email" placeholder="ahnaf@example.com">
+                <span></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <label class="min-w-40" for="password">Password <span class="text-red-600">*</span></label>
+                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50" type="password" id="password" name="password" placeholder="*****">
+                <span></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <label class="min-w-40" for="confirm">Confirm Password <span class="text-red-600">*</span></label>
+                <input class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"type="password" id="confirm" name="confirm" placeholder="*****">
+                <span></span>
+            </div>
+
+            <div class="mt-auto flex">
+                <button class="hover:bg-white hover:border-blue-700 hover:border-2 shadow-2xl flex-1 py-2 shadow-cyan-700/80 rounded-full bg-blue-400 hover:text-blue-800" type="submit">Sign up</button>
+            </div>
+        </form>
+
+    </main>
     
 </body>
 </html>
