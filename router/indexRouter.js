@@ -8,6 +8,8 @@ router.get("/", getHomePage);
 router.route("/sign-in").get(getSignIn).post(postSignIn);
 router.route("/sign-up").get(getSignUp).post(postSignUp);
 
+router.get("/home", )
+
 
 
 module.exports = router;

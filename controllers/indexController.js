@@ -1,5 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const { addUser } = require("../prisma/queries");
+const passport = require("passport");
 
 // sign up form validators
 const signUpValidator = [
@@ -63,7 +65,7 @@ const getHomePage = async (req, res) => {
 };
 
 const getSignIn = async (req, res) => {
-  res.render("signin");
+  res.render("signin", {fail: req.flash("error") });
 };
 
 const getSignUp = async (req, res) => {
@@ -79,22 +81,32 @@ const postSignUp = [
       res.render("signup", { error: errors.array() });
     } else {
       // add user to database
+      const {firstname, lastname, email, password} = req.body;
+      const user = await addUser(firstname, lastname, email, password);
+      res.redirect("/sign-in");
     }
   }),
 ];
 
 const postSignIn = [
   signInValidation,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors.array());
       res.render("signin", { error: errors.array() });
     } else {
       // log user in using passport
+      return next();
     }
   }),
+  passport.authenticate("local", {
+    successRedirect: "/home",
+    failureRedirect: "/sign-in",
+  })
 ];
+
+
 
 module.exports = {
   getHomePage,
