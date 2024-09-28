@@ -60,6 +60,15 @@ const signInValidation = [
     .withMessage("Password field can't be empty"),
 ];
 
+
+const createFolderValidation = [
+  body("name")
+  .trim()
+  .notEmpty()
+  .withMessage("Name field can't be empty")
+
+]
+
 const getHomePage = async (req, res) => {
   res.render("home", {user: req.user});
 };
@@ -111,6 +120,40 @@ const getUserHomePage = async (req, res) => {
   res.render("userHomePage", {user: req.user})
 }
 
+const getLogOut = async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    } else {
+      res.redirect("/");
+    }
+  })
+}
+
+const getCreateFolder = async (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("createFolder", {user: req.user});
+  } else {
+    res.redirect("/");
+  }
+}
+
+const postCreateFolder = [
+  createFolderValidation,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      res.render("createFolder", { error: errors.array(), user: req.user });
+    } else {
+      // redirect to /home
+      // prisma queries add folder to database!
+
+    }
+    
+  }
+]
+
 
 
 module.exports = {
@@ -119,5 +162,8 @@ module.exports = {
   getSignUp,
   postSignUp,
   postSignIn,
-  getUserHomePage
+  getUserHomePage,
+  getLogOut,
+  getCreateFolder,
+  postCreateFolder
 };

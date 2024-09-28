@@ -36,6 +36,11 @@ async function getUser(email) {
     console.log(err);
   }
 }
+// add folder for particular user!
+// async function addFolder (email) {
+  
+
+// }
 
 module.exports = {
   prisma,
