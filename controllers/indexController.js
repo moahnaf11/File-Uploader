@@ -61,7 +61,7 @@ const signInValidation = [
 ];
 
 const getHomePage = async (req, res) => {
-  res.render("home");
+  res.render("home", {user: req.user});
 };
 
 const getSignIn = async (req, res) => {
@@ -102,9 +102,14 @@ const postSignIn = [
   }),
   passport.authenticate("local", {
     successRedirect: "/home",
-    failureRedirect: "/sign-in",
+    failureRedirect: "/",
+    failureFlash: true
   })
 ];
+
+const getUserHomePage = async (req, res) => {
+  res.render("userHomePage", {user: req.user})
+}
 
 
 
@@ -113,5 +118,6 @@ module.exports = {
   getSignIn,
   getSignUp,
   postSignUp,
-  postSignIn
+  postSignIn,
+  getUserHomePage
 };

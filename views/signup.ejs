@@ -7,7 +7,7 @@
     <title>Sign Up</title>
   </head>
   <body class="h-screen text-zinc-200 bg-gray-600">
-    <%- include("appHeader") %>
+    <%- include("appHeader", {user: locals.user}) %>
     <main class="box-content h-full bg-gray-900 p-3 flex justify-center items-center">
       <!-- form submission errors -->
       <% let firstname, lastname, email ,password, confirmPassword %>

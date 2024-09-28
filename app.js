@@ -7,7 +7,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const indexRouter = require("./router/indexRouter");
-const prisma = require("./prisma/queries");
+const { prisma } = require("./prisma/queries");
 const { getUser } = require("./prisma/queries");
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
@@ -24,12 +24,12 @@ const verify = async (email, password, done) => {
     const user = await getUser(email);
 
     if (!user) {
-      return done(null, false, { message: "user not found" });
+      return done(null, false, {message: "User not found"});
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return done(null, false, { message: "incorrect password" });
+      return done(null, false, {message: "Incorrect password"});
     }
 
     return done(null, user);

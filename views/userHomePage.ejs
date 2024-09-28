@@ -6,9 +6,14 @@
     <link rel="stylesheet" href="/output.css">
     <title>Home Page</title>
 </head>
-<body>
-    <%- include("appHeader") %>
-
-    <h1>inside homepage</h1>
+<body class="text-zinc-200 bg-gray-600 h-screen">
+    <%- include("appHeader", {user: locals.user}) %>
+    <main class="bg-gray-900 h-full p-3">
+        <% if (locals.user) { %>
+            <h1>hello <%= locals.user.firstname + " " + locals.user.lastname %></h1>
+        <% } %>
+        <h1>inside home Page</h1>
+        
+    </main>
 </body>
 </html>

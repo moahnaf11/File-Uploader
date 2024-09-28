@@ -7,7 +7,7 @@
     <title>Sign In</title>
   </head>
   <body class="text-zinc-200 bg-gray-600 h-screen">
-    <%- include("appHeader") %>
+    <%- include("appHeader", {user: locals.user}) %>
     <main class="bg-gray-900 h-full p-3 flex justify-center items-center">
         <!-- sign in form validation JS -->
         <% let email ,password %>
