@@ -8,7 +8,7 @@
 </head>
 <body class="text-zinc-200 bg-gray-600 h-screen">
     <%- include("appHeader", {user: locals.user}) %>
-    <main class="h-full bg-gray-900 p-3">
+    <main class="min-h-screen bg-gray-900 p-3">
         <% if (locals.user) { %>
             <h1 class="text-2xl font-bold mb-3">Hi <%= locals.user.firstname + " " + locals.user.lastname %></h1>
         <% } %>
@@ -18,7 +18,8 @@
                 <button class="px-3 py-2 rounded-full border-2 border-white hover:bg-white hover:text-black">Create Folder</button>
             </a>
         </div>
-        <section class="text-black grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] auto-rows-[250px]">
+        <section class="min-h-screen grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 auto-rows-[250px] text-black">
+
         </section>
   
     </main>

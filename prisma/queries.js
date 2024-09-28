@@ -1,4 +1,3 @@
-
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 
@@ -28,7 +27,7 @@ async function getUser(email) {
     const user = await prisma.user.findUnique({
       where: {
         email: email,
-      }
+      },
     });
     console.log(user);
     return user;
@@ -37,13 +36,25 @@ async function getUser(email) {
   }
 }
 // add folder for particular user!
-// async function addFolder (email) {
-  
+async function addFolder(id, name) {
+  const folder = await prisma.folder.create({
+    data: {
+      name: name,
+      user: {
+        connect: {
+          userId: id
+        }
+      } 
+    },
+  });
 
-// }
+  console.log(folder);
+  return folder;
+}
 
 module.exports = {
   prisma,
   addUser,
-  getUser
+  getUser,
+  addFolder,
 };

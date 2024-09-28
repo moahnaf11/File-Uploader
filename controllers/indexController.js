@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const { addUser } = require("../prisma/queries");
+const { addUser, addFolder } = require("../prisma/queries");
 const passport = require("passport");
 
 // sign up form validators
@@ -60,21 +60,16 @@ const signInValidation = [
     .withMessage("Password field can't be empty"),
 ];
 
-
 const createFolderValidation = [
-  body("name")
-  .trim()
-  .notEmpty()
-  .withMessage("Name field can't be empty")
-
-]
+  body("name").trim().notEmpty().withMessage("Name field can't be empty"),
+];
 
 const getHomePage = async (req, res) => {
-  res.render("home", {user: req.user});
+  res.render("home", { user: req.user });
 };
 
 const getSignIn = async (req, res) => {
-  res.render("signin", {fail: req.flash("error") });
+  res.render("signin", { fail: req.flash("error") });
 };
 
 const getSignUp = async (req, res) => {
@@ -90,7 +85,7 @@ const postSignUp = [
       res.render("signup", { error: errors.array() });
     } else {
       // add user to database
-      const {firstname, lastname, email, password} = req.body;
+      const { firstname, lastname, email, password } = req.body;
       const user = await addUser(firstname, lastname, email, password);
       res.redirect("/sign-in");
     }
@@ -112,13 +107,13 @@ const postSignIn = [
   passport.authenticate("local", {
     successRedirect: "/home",
     failureRedirect: "/",
-    failureFlash: true
-  })
+    failureFlash: true,
+  }),
 ];
 
 const getUserHomePage = async (req, res) => {
-  res.render("userHomePage", {user: req.user})
-}
+  res.render("userHomePage", { user: req.user });
+};
 
 const getLogOut = async (req, res, next) => {
   req.logout((err) => {
@@ -127,16 +122,16 @@ const getLogOut = async (req, res, next) => {
     } else {
       res.redirect("/");
     }
-  })
-}
+  });
+};
 
 const getCreateFolder = async (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("createFolder", {user: req.user});
+    res.render("createFolder", { user: req.user });
   } else {
     res.redirect("/");
   }
-}
+};
 
 const postCreateFolder = [
   createFolderValidation,
@@ -146,15 +141,12 @@ const postCreateFolder = [
       console.log(errors.array());
       res.render("createFolder", { error: errors.array(), user: req.user });
     } else {
-      // redirect to /home
-      // prisma queries add folder to database!
-
+      const { name } = req.body;
+      const { id } = req.user;
+      const folder = await addFolder(id, name);
     }
-    
-  }
-]
-
-
+  },
+];
 
 module.exports = {
   getHomePage,
@@ -165,5 +157,5 @@ module.exports = {
   getUserHomePage,
   getLogOut,
   getCreateFolder,
-  postCreateFolder
+  postCreateFolder,
 };
