@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/output.css">
-    <title>Create Folder</title>
+    <title>Edit Folder</title>
 </head>
 <body class="text-zinc-200 bg-gray-600 h-screen">
     <%- include("appHeader", {user: locals.user}) %>
+
     <main class="bg-gray-900 h-full flex justify-center items-center p-3 text-black">
 
         <% let name; %>
@@ -19,8 +20,8 @@
                 }
             })
         } %>
-        <form class="bg-white min-w-[40%] flex flex-col gap-5 p-3 rounded-lg shadow-md shadow-white" action="/home/create-folder" method="post">
-            <h1 class="text-2xl font-bold mb-3 border-b-2 border-black max-w-max">Create Folder</h1>
+        <form class="bg-white min-w-[40%] flex flex-col gap-5 p-3 rounded-lg shadow-md shadow-white" action="/home/edit/<%= locals.id %>" method="post">
+            <h1 class="text-2xl font-bold mb-3 border-b-2 border-black max-w-max">Edit Folder</h1>
             <div class="flex flex-col">
                 <label for="name">Folder Name <span class="text-red-600">*</span></label>
                 <input class="border-2 px-2 py-1 border-black" type="text" id="name" name="name" placeholder="Name">
@@ -28,10 +29,10 @@
             </div>
 
             <div class="flex">
-                <button class="flex-1 box-content border-2 px-3 py-2 rounded-full hover:bg-white hover:border-blue-700 shadow-2xl shadow-cyan-700/80 bg-blue-400 hover:text-blue-800" type="submit">Create Folder</button>
+                <button class="flex-1 box-content border-2 px-3 py-2 rounded-full hover:bg-white hover:border-blue-700 shadow-2xl shadow-cyan-700/80 bg-blue-400 hover:text-blue-800" type="submit">Edit Folder</button>
             </div>
         </form>
     </main>
-    
+ 
 </body>
 </html>

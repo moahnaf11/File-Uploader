@@ -42,13 +42,52 @@ async function addFolder(id, name) {
       name: name,
       user: {
         connect: {
-          userId: id
-        }
-      } 
+          id: id,
+        },
+      },
     },
   });
 
-  console.log(folder);
+  console.log("added folder", folder);
+  console.log(id === folder.userId);
+  return folder;
+}
+
+// get users folders
+async function getFolders(id) {
+  const folders = await prisma.folder.findMany({
+    where: {
+      userId: id,
+    },
+  });
+  console.log("folders", folders);
+  return folders;
+}
+
+// delete folder
+async function deleteFolder(id) {
+  const folder = await prisma.folder.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  console.log("deleted folder", folder);
+  return folder;
+}
+
+// edit folder
+async function editFolder(id, name) {
+  const folder = await prisma.folder.update({
+    where: {
+      id: id,
+    },
+    data: {
+      name: name,
+    },
+  });
+
+  console.log("edited folder", folder);
   return folder;
 }
 
@@ -57,4 +96,7 @@ module.exports = {
   addUser,
   getUser,
   addFolder,
+  getFolders,
+  deleteFolder,
+  editFolder
 };
