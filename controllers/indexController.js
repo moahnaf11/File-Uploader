@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const { addUser, addFolder, getFolders, deleteFolder, editFolder } = require("../prisma/queries");
+const { addUser, addFolder, getFolders, deleteFolder, editFolder, getFiles } = require("../prisma/queries");
 const passport = require("passport");
 const { name } = require("ejs");
 
@@ -177,6 +177,13 @@ const postEditFolder = [
   }
 ]
 
+const getFolderPage = async (req, res) => {
+  const id = req.params.folderId;
+  const files = await getFiles(id);
+  res.render("userFolderPage", {files: files, user: req.user});
+
+}
+
 
 module.exports = {
   getHomePage,
@@ -190,7 +197,6 @@ module.exports = {
   postCreateFolder,
   getDeleteFolder,
   getEditFolder,
-  postEditFolder
+  postEditFolder,
+  getFolderPage
 };
-
-// class="size-6 group-hover:fill-black mx-auto"

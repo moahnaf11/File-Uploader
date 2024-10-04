@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/output.css">
+    <title><%= locals.files.name %></title>
+</head>
+<body class="text-zinc-200 bg-gray-600 h-screen">
+    <%- include("appHeader", {user: locals.user}) %>
+
+    <main class="bg-gray-900 min-h-screen p-3">
+        <% if (locals.user) { %>
+            <h1 class="text-2xl font-bold mb-3">Hi <%= locals.user.firstname + " " + locals.user.lastname %></h1>
+        <% } %>
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold mb-3"><%= locals.files.name %></h1> 
+            <form class="p-3 hover:text-black hover:bg-white rounded-full border-2 border-white flex gap-3 items-center min-w-36" action="" method="post">
+                <svg class="size-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13.5 3H12H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H7.5M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V9.75V12V19C19 20.1046 18.1046 21 17 21H16.5" stroke="currentColor" stroke-width="1.608" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 21L12 13M12 13L14.5 15.5M12 13L9.5 15.5" stroke="currentColor" stroke-width="1.608" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                <button type="submit">Upload File</button>
+            </form>
+        </div>
+        
+    
+        <section class="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] sm:grid-cols-[repeat(6,_minmax(200px,_1fr))] gap-4 auto-rows-[200px] text-black ">
+
+        </section>
+
+
+    </main>
+
+
+
+
+    
+</body>
+</html>

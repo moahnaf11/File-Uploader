@@ -91,6 +91,23 @@ async function editFolder(id, name) {
   return folder;
 }
 
+// get all files
+
+async function getFiles (id) {
+  const files = await prisma.folder.findUnique({
+    where: {
+      id: id      
+    },
+    include: {
+      files: true
+    }
+  });
+
+  console.log("files", files);
+  return files;
+
+}
+
 module.exports = {
   prisma,
   addUser,
@@ -98,5 +115,6 @@ module.exports = {
   addFolder,
   getFolders,
   deleteFolder,
-  editFolder
+  editFolder,
+  getFiles
 };

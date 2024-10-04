@@ -26,7 +26,7 @@
                 <% locals.folders.forEach(folder => { %>
                     <div class="flex bg-white flex-col gap-3 text-black p-3 rounded-xl">
                         <h2 class="text-xl"><%= folder.name %></h2>
-                        <a href="#">
+                        <a href="/home/<%= folder.id %>">
                             <img class="size-20 mx-auto" src="images/folder.svg" alt="folder image icon">
                         </a>
                         <div class="mt-auto flex gap-5 items-center">
