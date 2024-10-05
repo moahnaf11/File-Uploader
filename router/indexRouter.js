@@ -1,4 +1,4 @@
-const { getHomePage, getSignIn, getSignUp, postSignUp, postSignIn, getUserHomePage, getLogOut, getCreateFolder, postCreateFolder, getDeleteFolder, getEditFolder, postEditFolder, getFolderPage } = require("../controllers/indexController");
+const { getHomePage, getSignIn, getSignUp, postSignUp, postSignIn, getUserHomePage, getLogOut, getCreateFolder, postCreateFolder, getDeleteFolder, getEditFolder, postEditFolder, getFolderPage, postFile } = require("../controllers/indexController");
 
 const express = require("express");
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get("/log-out", getLogOut);
 router.route("/home/create-folder").get(getCreateFolder).post(postCreateFolder);
 router.get("/home/delete/:folderId", getDeleteFolder);
 router.route("/home/edit/:folderId").get(getEditFolder).post(postEditFolder);
-router.route("/home/:folderId").get(getFolderPage);
+router.route("/home/:folderId").get(getFolderPage).post(postFile);
 
 
 

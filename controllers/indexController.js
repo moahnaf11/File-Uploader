@@ -1,8 +1,28 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const { addUser, addFolder, getFolders, deleteFolder, editFolder, getFiles } = require("../prisma/queries");
+const cloudinary = require("../cloudinaryConfig");
+const {
+  addUser,
+  addFolder,
+  getFolders,
+  deleteFolder,
+  editFolder,
+  getFiles,
+  addFileUrl,
+} = require("../prisma/queries");
 const passport = require("passport");
-const { name } = require("ejs");
+const path = require("path");
+
+// multer
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // Limit file size to 2MB (in bytes)
+    files: 1, // Limit to 1 file at a time
+  },
+});
 
 // sign up form validators
 const signUpValidator = [
@@ -153,13 +173,13 @@ const postCreateFolder = [
 
 const getDeleteFolder = async (req, res) => {
   const folderId = req.params.folderId;
-  const deletedFolder =  await deleteFolder(folderId);
+  const deletedFolder = await deleteFolder(folderId);
   res.redirect("/home");
-}
+};
 
-const getEditFolder = async(req, res) => {
-  res.render("editFolder", {user: req.user, id: req.params.folderId});
-}
+const getEditFolder = async (req, res) => {
+  res.render("editFolder", { user: req.user, id: req.params.folderId });
+};
 
 const postEditFolder = [
   createFolderValidation,
@@ -169,21 +189,60 @@ const postEditFolder = [
       console.log(errors.array());
       res.render("editFolder", { error: errors.array(), user: req.user });
     } else {
-      const {name} = req.body;
+      const { name } = req.body;
       const folderId = req.params.folderId;
       const editedFolder = await editFolder(folderId, name);
       res.redirect("/home");
     }
-  }
-]
+  },
+];
 
 const getFolderPage = async (req, res) => {
   const id = req.params.folderId;
   const files = await getFiles(id);
-  res.render("userFolderPage", {files: files, user: req.user});
+  res.render("userFolderPage", { files: files, user: req.user });
+};
 
-}
-
+const postFile = [
+  async (req, res, next) => {
+    upload.single("avatar")(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          let message = "Max file size allowed is 4MB";
+          const id = req.params.folderId;
+          const files = await getFiles(id);
+          res.render("userFolderPage", {
+            files: files,
+            user: req.user,
+            message: message,
+          });
+          return;
+        }
+      } else if (err) {
+        return next(err);
+        // An unknown error occurred when uploading.
+      } else {
+        const id = req.params.folderId;
+        console.log("uploaded file", req.file);
+        const filename = Date.now() + "--" + req.file.originalname;
+        const stream = cloudinary.uploader.upload_stream(
+          {resource_type: "auto"},
+          async (error, result) => {
+            if (error) {
+              return next(error);
+            } else {
+              console.log("result", result);
+              // save url to database
+              const file = await addFileUrl(result.secure_url, id, filename);
+              res.redirect("/home/" + id);
+            }
+          }
+        )
+        stream.end(req.file.buffer);       
+      }
+    });
+  },
+];
 
 module.exports = {
   getHomePage,
@@ -198,5 +257,6 @@ module.exports = {
   getDeleteFolder,
   getEditFolder,
   postEditFolder,
-  getFolderPage
+  getFolderPage,
+  postFile,
 };

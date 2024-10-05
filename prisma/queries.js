@@ -108,6 +108,26 @@ async function getFiles (id) {
 
 }
 
+// save file url to database
+async function addFileUrl(url, id, filename) {
+  const file = await prisma.file.create({
+    data: {
+      name: filename,
+      url: url,
+      folder: {
+        connect: {
+          id: id
+        }
+      }
+    },
+  })
+
+  console.log("file uploaded", file);
+  return file;
+
+}
+
+
 module.exports = {
   prisma,
   addUser,
@@ -116,5 +136,6 @@ module.exports = {
   getFolders,
   deleteFolder,
   editFolder,
-  getFiles
+  getFiles,
+  addFileUrl
 };

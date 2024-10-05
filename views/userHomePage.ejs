@@ -21,7 +21,7 @@
                 </button>
             </a>
         </div>
-        <section class="min-h-screen grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] sm:grid-cols-[repeat(6,_minmax(200px,_1fr))] gap-4 auto-rows-[200px] text-black">
+        <section class="min-h-screen grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] auto-rows-min sm:grid-cols-[repeat(5,_minmax(200px,_1fr))] gap-4 sm:auto-rows-[200px] text-black">
             <% if (locals.folders && locals.folders.length > 0) { %>
                 <% locals.folders.forEach(folder => { %>
                     <div class="flex bg-white flex-col gap-3 text-black p-3 rounded-xl">
@@ -44,7 +44,6 @@
                     </div>
                 <% }) %>
            <% } %> 
-
         </section>
   
     </main>
