@@ -109,11 +109,14 @@ async function getFiles (id) {
 }
 
 // save file url to database
-async function addFileUrl(url, id, filename) {
+async function addFileUrl(url, id, filename, time, bytes) {
+  const date = new Date(time);
   const file = await prisma.file.create({
     data: {
       name: filename,
       url: url,
+      createdAt: time,
+      size: bytes,
       folder: {
         connect: {
           id: id
@@ -127,6 +130,30 @@ async function addFileUrl(url, id, filename) {
 
 }
 
+// get single file
+
+async function getFile(id) {
+  const file = await prisma.file.findUnique({
+    where: {
+      id: id
+    }
+  })
+
+  console.log("single file", file);
+  return file;
+}
+
+async function deleteFile(id) {
+  const file = await prisma.file.delete({
+    where: {
+      id: id
+    }
+  })
+
+  console.log("deleted file", file);
+  return file
+}
+
 
 module.exports = {
   prisma,
@@ -137,5 +164,7 @@ module.exports = {
   deleteFolder,
   editFolder,
   getFiles,
-  addFileUrl
+  addFileUrl,
+  getFile,
+  deleteFile
 };

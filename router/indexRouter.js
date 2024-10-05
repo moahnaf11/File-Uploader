@@ -1,8 +1,24 @@
-const { getHomePage, getSignIn, getSignUp, postSignUp, postSignIn, getUserHomePage, getLogOut, getCreateFolder, postCreateFolder, getDeleteFolder, getEditFolder, postEditFolder, getFolderPage, postFile } = require("../controllers/indexController");
+const {
+  getHomePage,
+  getSignIn,
+  getSignUp,
+  postSignUp,
+  postSignIn,
+  getUserHomePage,
+  getLogOut,
+  getCreateFolder,
+  postCreateFolder,
+  getDeleteFolder,
+  getEditFolder,
+  postEditFolder,
+  getFolderPage,
+  postFile,
+  getFileDetails,
+  deleteTheFile,
+} = require("../controllers/indexController");
 
 const express = require("express");
-const router = express.Router();
-
+const router = express.Router({ mergeParams: true });
 
 router.get("/", getHomePage);
 router.route("/sign-in").get(getSignIn).post(postSignIn);
@@ -15,7 +31,7 @@ router.route("/home/create-folder").get(getCreateFolder).post(postCreateFolder);
 router.get("/home/delete/:folderId", getDeleteFolder);
 router.route("/home/edit/:folderId").get(getEditFolder).post(postEditFolder);
 router.route("/home/:folderId").get(getFolderPage).post(postFile);
-
-
+router.get("/home/:folderId/delete/:fileId", deleteTheFile);
+router.get("/home/:folderId/:fileId", getFileDetails);
 
 module.exports = router;

@@ -9,6 +9,8 @@ const {
   editFolder,
   getFiles,
   addFileUrl,
+  getFile,
+  deleteFile,
 } = require("../prisma/queries");
 const passport = require("passport");
 const path = require("path");
@@ -218,6 +220,16 @@ const postFile = [
           });
           return;
         }
+      } else if (!req.file) {
+        let message = "Please select a file";
+        const id = req.params.folderId;
+        const files = await getFiles(id);
+        res.render("userFolderPage", {
+          files: files,
+          user: req.user,
+          message: message,
+        });
+        return;
       } else if (err) {
         return next(err);
         // An unknown error occurred when uploading.
@@ -226,23 +238,42 @@ const postFile = [
         console.log("uploaded file", req.file);
         const filename = Date.now() + "--" + req.file.originalname;
         const stream = cloudinary.uploader.upload_stream(
-          {resource_type: "auto"},
+          { resource_type: "auto" },
           async (error, result) => {
             if (error) {
               return next(error);
             } else {
               console.log("result", result);
               // save url to database
-              const file = await addFileUrl(result.secure_url, id, filename);
+              const file = await addFileUrl(
+                result.secure_url,
+                id,
+                filename,
+                result.created_at,
+                result.bytes
+              );
               res.redirect("/home/" + id);
             }
           }
-        )
-        stream.end(req.file.buffer);       
+        );
+        stream.end(req.file.buffer);
       }
     });
   },
 ];
+
+const getFileDetails = async (req, res) => {
+  const fileId = req.params.fileId;
+  const file = await getFile(fileId);
+  res.render("fileDetails", { user: req.user, file: file });
+};
+
+const deleteTheFile = async (req, res) => {
+  const fileId = req.params.fileId;
+  const file = await deleteFile(fileId);
+  const folderId = req.params.folderId;
+  res.redirect("/home/" + folderId);
+}
 
 module.exports = {
   getHomePage,
@@ -259,4 +290,17 @@ module.exports = {
   postEditFolder,
   getFolderPage,
   postFile,
+  getFileDetails,
+  deleteTheFile
 };
+
+// <% const date = new Date(file.createdAt).toLocaleDateString("en-GB", {
+//   day: "2-digit",
+//   month: "2-digit",
+//   year: "numeric",
+// })
+// const time = new Date(file.createdAt).toLocaleTimeString("en-GB", {
+//   hour: "2-digit",
+//   minute: "2-digit",
+//   hour12: false,
+// }) %>
