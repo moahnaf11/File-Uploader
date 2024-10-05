@@ -238,7 +238,7 @@ const postFile = [
         console.log("uploaded file", req.file);
         const filename = Date.now() + "--" + req.file.originalname;
         const stream = cloudinary.uploader.upload_stream(
-          { resource_type: "auto" },
+          { resource_type: "raw" },
           async (error, result) => {
             if (error) {
               return next(error);
@@ -275,6 +275,12 @@ const deleteTheFile = async (req, res) => {
   res.redirect("/home/" + folderId);
 }
 
+const getFileDownload = async (req, res) => {
+  const fileId = req.params.fileId;
+  const file = await getFile(fileId);
+  res.redirect(file.url);
+}
+
 module.exports = {
   getHomePage,
   getSignIn,
@@ -291,16 +297,7 @@ module.exports = {
   getFolderPage,
   postFile,
   getFileDetails,
-  deleteTheFile
+  deleteTheFile,
+  getFileDownload
 };
 
-// <% const date = new Date(file.createdAt).toLocaleDateString("en-GB", {
-//   day: "2-digit",
-//   month: "2-digit",
-//   year: "numeric",
-// })
-// const time = new Date(file.createdAt).toLocaleTimeString("en-GB", {
-//   hour: "2-digit",
-//   minute: "2-digit",
-//   hour12: false,
-// }) %>

@@ -15,6 +15,7 @@ const {
   postFile,
   getFileDetails,
   deleteTheFile,
+  getFileDownload,
 } = require("../controllers/indexController");
 
 const express = require("express");
@@ -32,6 +33,7 @@ router.get("/home/delete/:folderId", getDeleteFolder);
 router.route("/home/edit/:folderId").get(getEditFolder).post(postEditFolder);
 router.route("/home/:folderId").get(getFolderPage).post(postFile);
 router.get("/home/:folderId/delete/:fileId", deleteTheFile);
+router.get("/home/:folderId/:fileId/download", getFileDownload );
 router.get("/home/:folderId/:fileId", getFileDetails);
 
 module.exports = router;
