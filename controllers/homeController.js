@@ -17,13 +17,9 @@ const getUserHomePage = async (req, res) => {
 };
 
 const getCreateFolder = async (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("createFolder", { user: req.user });
-  } else {
-    res.redirect("/");
-  }
-};
-
+  res.render("createFolder", { user: req.user });
+}
+  
 const postCreateFolder = [
   createFolderValidation,
   async (req, res) => {

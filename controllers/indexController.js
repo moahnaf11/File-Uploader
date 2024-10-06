@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const { addUser } = require("../prisma/queries");
+const { addUser, getFile } = require("../prisma/queries");
 const passport = require("../utils/passportConfig");
 
 // sign up form validators
@@ -117,6 +117,13 @@ const getLogOut = async (req, res, next) => {
   });
 };
 
+const getFileLink = async (req, res) => {
+  const id = req.params.fileId;
+  const file = await getFile(id);
+  const baseUrl = 'https://localhost:3000/share/' + id;
+  res.render("fileDetails", {user: req.user, file: file, url: baseUrl});
+}
+
 module.exports = {
   getHomePage,
   getSignIn,
@@ -124,4 +131,5 @@ module.exports = {
   postSignUp,
   postSignIn,
   getLogOut,
+  getFileLink
 };

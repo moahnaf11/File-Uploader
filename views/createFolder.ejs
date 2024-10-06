@@ -13,7 +13,7 @@
         <% let name; %>
         <% if (locals.error && locals.error.length > 0) {
             locals.error.forEach(err => {
-                const msg = err.msg + " " + "your input was " + (error.value || "an empty string")
+                const msg = err.msg + " " + "your input was " + (error.value || "empty")
                 if (err.path === "name") {
                     name = msg;
                 }
