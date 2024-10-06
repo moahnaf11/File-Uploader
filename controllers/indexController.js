@@ -1,30 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
-const cloudinary = require("../cloudinaryConfig");
-const {
-  addUser,
-  addFolder,
-  getFolders,
-  deleteFolder,
-  editFolder,
-  getFiles,
-  addFileUrl,
-  getFile,
-  deleteFile,
-} = require("../prisma/queries");
-const passport = require("passport");
-const path = require("path");
-
-// multer
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 2 * 1024 * 1024, // Limit file size to 2MB (in bytes)
-    files: 1, // Limit to 1 file at a time
-  },
-});
+const { addUser } = require("../prisma/queries");
+const passport = require("../utils/passportConfig");
 
 // sign up form validators
 const signUpValidator = [
@@ -83,10 +60,6 @@ const signInValidation = [
     .withMessage("Password field can't be empty"),
 ];
 
-const createFolderValidation = [
-  body("name").trim().notEmpty().withMessage("Name field can't be empty"),
-];
-
 const getHomePage = async (req, res) => {
   res.render("home", { user: req.user });
 };
@@ -129,15 +102,10 @@ const postSignIn = [
   }),
   passport.authenticate("local", {
     successRedirect: "/home",
-    failureRedirect: "/",
+    failureRedirect: "/sign-in",
     failureFlash: true,
   }),
 ];
-
-const getUserHomePage = async (req, res) => {
-  const folders = await getFolders(req.user.id);
-  res.render("userHomePage", { user: req.user, folders: folders });
-};
 
 const getLogOut = async (req, res, next) => {
   req.logout((err) => {
@@ -149,170 +117,11 @@ const getLogOut = async (req, res, next) => {
   });
 };
 
-const getCreateFolder = async (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("createFolder", { user: req.user });
-  } else {
-    res.redirect("/");
-  }
-};
-
-const postCreateFolder = [
-  createFolderValidation,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.log(errors.array());
-      res.render("createFolder", { error: errors.array(), user: req.user });
-    } else {
-      const { name } = req.body;
-      const { id } = req.user;
-      const folder = await addFolder(id, name);
-      res.redirect("/home");
-    }
-  },
-];
-
-const getDeleteFolder = async (req, res) => {
-  const folderId = req.params.folderId;
-  const deletedFolder = await deleteFolder(folderId);
-  res.redirect("/home");
-};
-
-const getEditFolder = async (req, res) => {
-  res.render("editFolder", { user: req.user, id: req.params.folderId });
-};
-
-const postEditFolder = [
-  createFolderValidation,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.log(errors.array());
-      res.render("editFolder", { error: errors.array(), user: req.user });
-    } else {
-      const { name } = req.body;
-      const folderId = req.params.folderId;
-      const editedFolder = await editFolder(folderId, name);
-      res.redirect("/home");
-    }
-  },
-];
-
-const getFolderPage = async (req, res) => {
-  const id = req.params.folderId;
-  const files = await getFiles(id);
-  res.render("userFolderPage", { files: files, user: req.user });
-};
-
-const postFile = [
-  async (req, res, next) => {
-    upload.single("avatar")(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        if (err.code === "LIMIT_FILE_SIZE") {
-          let message = "Max file size allowed is 4MB";
-          const id = req.params.folderId;
-          const files = await getFiles(id);
-          res.render("userFolderPage", {
-            files: files,
-            user: req.user,
-            message: message,
-          });
-          return;
-        }
-      } else if (!req.file) {
-        let message = "Please select a file";
-        const id = req.params.folderId;
-        const files = await getFiles(id);
-        res.render("userFolderPage", {
-          files: files,
-          user: req.user,
-          message: message,
-        });
-        return;
-      } else if (err) {
-        return next(err);
-        // An unknown error occurred when uploading.
-      } else {
-        const id = req.params.folderId;
-        console.log("uploaded file", req.file);
-        const filename = Date.now() + "--" + req.file.originalname;
-        const stream = cloudinary.uploader.upload_stream(
-          { resource_type: "raw" },
-          async (error, result) => {
-            if (error) {
-              return next(error);
-            } else {
-              console.log("result", result);
-              // save url to database
-              const file = await addFileUrl(
-                result.secure_url,
-                id,
-                filename,
-                result.created_at,
-                result.bytes,
-                result.public_id
-              );
-              res.redirect("/home/" + id);
-            }
-          }
-        );
-        stream.end(req.file.buffer);
-      }
-    });
-  },
-];
-
-const getFileDetails = async (req, res) => {
-  const fileId = req.params.fileId;
-  const file = await getFile(fileId);
-  res.render("fileDetails", { user: req.user, file: file });
-};
-
-const deleteFromCloudinary = async(publicId) => {
-  try {
-    const result = await cloudinary.uploader.destroy(publicId);
-    console.log('Cloudinary file deleted successfully:', result);
-    return result;
-  } catch (error) {
-    console.error('Error deleting file from Cloudinary:', error);
-  }
-}
-
-const deleteTheFile = async (req, res) => {
-  const fileId = req.params.fileId;
-  const deletedFile = await getFile(fileId);
-  // delete file from cloudinary
-  console.log("publicId", deletedFile.publicId)
-  deleteFromCloudinary(deletedFile.publicId);
-  const file = await deleteFile(fileId);
-  const folderId = req.params.folderId;
-  res.redirect("/home/" + folderId);
-}
-
-const getFileDownload = async (req, res) => {
-  const fileId = req.params.fileId;
-  const file = await getFile(fileId);
-  res.redirect(file.url);
-}
-
 module.exports = {
   getHomePage,
   getSignIn,
   getSignUp,
   postSignUp,
   postSignIn,
-  getUserHomePage,
   getLogOut,
-  getCreateFolder,
-  postCreateFolder,
-  getDeleteFolder,
-  getEditFolder,
-  postEditFolder,
-  getFolderPage,
-  postFile,
-  getFileDetails,
-  deleteTheFile,
-  getFileDownload
 };
-

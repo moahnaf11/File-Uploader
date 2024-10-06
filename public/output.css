@@ -673,8 +673,8 @@ video {
   min-height: 100vh;
 }
 
-.w-full {
-  width: 100%;
+.min-h-80 {
+  min-height: 20rem;
 }
 
 .min-w-32 {
@@ -1011,26 +1011,6 @@ video {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
-.outline {
-  outline-style: solid;
-}
-
-.outline-1 {
-  outline-width: 1px;
-}
-
-.outline-red-50 {
-  outline-color: #fef2f2;
-}
-
-.outline-red-600 {
-  outline-color: #dc2626;
-}
-
-.outline-red-500 {
-  outline-color: #ef4444;
-}
-
 .placeholder\:italic::-moz-placeholder {
   font-style: italic;
 }
@@ -1134,44 +1114,12 @@ video {
     min-height: 70px;
   }
 
-  .sm\:min-w-\[50\%\] {
-    min-width: 50%;
-  }
-
-  .sm\:min-w-\[40\%\] {
-    min-width: 40%;
-  }
-
   .sm\:min-w-\[10px\] {
     min-width: 10px;
   }
 
-  .sm\:min-w-\[70\%\] {
-    min-width: 70%;
-  }
-
-  .sm\:max-w-\[40\%\] {
-    max-width: 40%;
-  }
-
-  .sm\:max-w-\[10px\] {
-    max-width: 10px;
-  }
-
-  .sm\:max-w-\[100\] {
-    max-width: 100;
-  }
-
-  .sm\:max-w-\[100\%\] {
-    max-width: 100%;
-  }
-
-  .sm\:max-w-\[\] {
-    max-width: ;
-  }
-
-  .sm\:max-w-\[70\%\] {
-    max-width: 70%;
+  .sm\:min-w-\[50\%\] {
+    min-width: 50%;
   }
 
   .sm\:auto-rows-\[200px\] {
@@ -1194,20 +1142,16 @@ video {
     align-items: center;
   }
 
-  .sm\:gap-3 {
-    gap: 0.75rem;
-  }
-
   .sm\:gap-14 {
     gap: 3.5rem;
   }
 
-  .sm\:text-left {
-    text-align: left;
+  .sm\:gap-3 {
+    gap: 0.75rem;
   }
 
-  .sm\:\*\:max-w-\[40\%\] > * {
-    max-width: 40%;
+  .sm\:text-left {
+    text-align: left;
   }
 }
 

@@ -137,6 +137,9 @@ async function getFile(id) {
   const file = await prisma.file.findUnique({
     where: {
       id: id
+    },
+    include: {
+      folder: true
     }
   })
 
@@ -167,5 +170,5 @@ module.exports = {
   getFiles,
   addFileUrl,
   getFile,
-  deleteFile
+  deleteFile,
 };

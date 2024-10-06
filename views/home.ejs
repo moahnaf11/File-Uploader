@@ -8,9 +8,9 @@
   </head>
   <body class="text-zinc-200 bg-gray-600 h-screen">
     <%- include("appHeader", {user: locals.user}) %>
-    <main class="bg-gray-900 h-full p-3 flex justify-center md:pr-0">
+    <main class="bg-gray-900 h-full p-3 flex justify-center items-center md:pr-0">
       <div
-        class="max-w-2xl shadow-lg shadow-gray-400/90 bg-gray-400 max-h-80 text-black rounded-xl p-2 flex flex-col gap-3"
+        class="max-w-2xl shadow-lg shadow-gray-400/90 bg-gray-400 min-h-80 text-black rounded-xl p-2 flex flex-col gap-3"
       >
         <h2 class="text-xl font-bold font-custom">Welcome to File Uploader</h2>
         <p>
@@ -27,12 +27,12 @@
         <% if (!locals.user) { %>
           <div class="flex justify-center gap-9 mt-auto">
             <a
-              class="py-3 hover:bg-blue-600 hover:text-white px-4 hover:shadow-lg hover:shadow-cyan-500/60 bg-blue-400 rounded-full"
+              class="py-3 font-bold font-custom hover:bg-blue-600 hover:text-white px-4 hover:shadow-lg hover:shadow-cyan-500/60 bg-blue-400 rounded-full"
               href="/sign-in"
               >Sign In</a
             >
             <a
-              class="py-3 hover:bg-blue-600 hover:text-white px-4 hover:shadow-lg hover:shadow-cyan-500/60 bg-blue-400 rounded-full"
+              class="py-3 font-bold font-custom hover:bg-blue-600 hover:text-white px-4 hover:shadow-lg hover:shadow-cyan-500/60 bg-blue-400 rounded-full"
               href="/sign-up"
               >Sign Up</a
             >
