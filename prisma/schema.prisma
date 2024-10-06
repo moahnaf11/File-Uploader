@@ -42,6 +42,7 @@ model File {
   folderId  String
   createdAt DateTime @default(now())
   size      Int      @default(0)
+  publicId  String
 
   @@map("files")
 }

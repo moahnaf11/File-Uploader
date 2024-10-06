@@ -109,7 +109,7 @@ async function getFiles (id) {
 }
 
 // save file url to database
-async function addFileUrl(url, id, filename, time, bytes) {
+async function addFileUrl(url, id, filename, time, bytes, publicId) {
   const date = new Date(time);
   const file = await prisma.file.create({
     data: {
@@ -117,6 +117,7 @@ async function addFileUrl(url, id, filename, time, bytes) {
       url: url,
       createdAt: time,
       size: bytes,
+      publicId: publicId,
       folder: {
         connect: {
           id: id
@@ -151,7 +152,7 @@ async function deleteFile(id) {
   })
 
   console.log("deleted file", file);
-  return file
+  return file;
 }
 
 

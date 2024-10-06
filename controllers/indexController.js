@@ -250,7 +250,8 @@ const postFile = [
                 id,
                 filename,
                 result.created_at,
-                result.bytes
+                result.bytes,
+                result.public_id
               );
               res.redirect("/home/" + id);
             }
@@ -268,8 +269,22 @@ const getFileDetails = async (req, res) => {
   res.render("fileDetails", { user: req.user, file: file });
 };
 
+const deleteFromCloudinary = async(publicId) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    console.log('Cloudinary file deleted successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Error deleting file from Cloudinary:', error);
+  }
+}
+
 const deleteTheFile = async (req, res) => {
   const fileId = req.params.fileId;
+  const deletedFile = await getFile(fileId);
+  // delete file from cloudinary
+  console.log("publicId", deletedFile.publicId)
+  deleteFromCloudinary(deletedFile.publicId);
   const file = await deleteFile(fileId);
   const folderId = req.params.folderId;
   res.redirect("/home/" + folderId);

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/output.css">
+    <script src="/js/confirmDelete.js" defer></script>
     <title><%= locals.files.name %></title>
 </head>
 <body class="text-zinc-200 bg-gray-600 h-screen">
@@ -11,15 +12,15 @@
 
     <main class="bg-gray-900 min-h-screen p-3">
         <% if (locals.user) { %>
-            <a class="px-3 mb-3 mx-auto sm:mx-0 py-2 border-2 max-w-max rounded-full border-white flex items-center hover:text-black hover:bg-white" href="/home">
+            <a class="px-3 font-bold font-custom mb-3 mx-auto sm:mx-0 py-2 border-2 max-w-max rounded-full border-white flex items-center hover:text-black hover:bg-white" href="/home">
                 <svg class="size-6" viewBox="0 0 1024 1024" fill="currentColor" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="51.2"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M669.6 849.6c8.8 8 22.4 7.2 30.4-1.6s7.2-22.4-1.6-30.4l-309.6-280c-8-7.2-8-17.6 0-24.8l309.6-270.4c8.8-8 9.6-21.6 2.4-30.4-8-8.8-21.6-9.6-30.4-2.4L360.8 480.8c-27.2 24-28 64-0.8 88.8l309.6 280z" fill=""></path></g></svg>
                 All Folders
             </a>
-            <h1 class="text-2xl font-bold mb-3 text-center sm:text-left">Hi <%= locals.user.firstname + " " + locals.user.lastname %></h1>
+            <h1 class="text-2xl font-custom font-bold mb-3 text-center sm:text-left">Hi <%= locals.user.firstname + " " + locals.user.lastname %></h1>
         <% } %>
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-            <h1 class="text-2xl font-bold mb-3"><%= locals.files.name %></h1> 
-            <form class="p-3 flex flex-col gap-3 max-w-[250px]" action="/home/<%= locals.files.id %>" method="post" enctype="multipart/form-data">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-6 sm:gap-14">
+            <h1 class="text-2xl font-custom sm:min-w-[10px] font-bold sm:text-left text-center break-words"><%= locals.files.name %></h1> 
+            <form class="p-3 flex flex-col gap-3 max-w-[250px] mx-auto sm:mx-0" action="/home/<%= locals.files.id %>" method="post" enctype="multipart/form-data">
                 <div class="flex flex-col">
                     <input type="file" name="avatar">
                     <span class="text-red-600"><%= locals.message || "" %></span>
@@ -35,13 +36,13 @@
         <section class="min-h-screen grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] auto-rows-min sm:grid-cols-[repeat(5,_minmax(200px,_1fr))] gap-5 sm:auto-rows-[250px] text-black ">
             <% if (locals.files && locals.files.files.length > 0) { %>
                 <% locals.files.files.forEach(file => { %>
-                    <div class="flex bg-white flex-col gap-3 text-black p-3 rounded-xl">
-                        <h1 class="font-bold text-ellipsis overflow-hidden"><%= file.name.split("--")[1] %></h1>
+                    <div class="flex bg-white flex-col sm:gap-3 gap-5 text-black p-3 rounded-xl">
+                        <h1 class="font-bold font-custom text-ellipsis overflow-hidden sm:min-h-[70px] sm:max-h-[70px]"><%= file.name.split("--")[1] %></h1>
                         <a class="flex-1 flex justify-center items-center" href="/home/<%= locals.files.id %>/<%= file.id %>">
                             <svg class="size-20" version="1.1" id="_x36_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path style="fill:#e1d014;" d="M431.953,50.012V461.94c0,27.547-22.512,50.06-50.06,50.06H50.016 c-1.526,0-3.053-0.076-4.502-0.229c-1.526-0.076-2.976-0.305-4.426-0.61c-0.763-0.076-1.526-0.229-2.213-0.458 c-4.197-0.916-8.241-2.442-11.905-4.426c-0.076,0-0.076-0.076-0.076-0.076c-0.229-0.076-0.458-0.153-0.611-0.305 c-1.45-0.764-2.824-1.603-4.121-2.519c-1.602-0.992-3.129-2.137-4.502-3.434c-0.992-0.764-1.908-1.679-2.823-2.595 c-1.755-1.679-3.358-3.586-4.808-5.571c-0.458-0.61-0.916-1.297-1.374-1.908c-1.068-1.526-2.061-3.128-2.823-4.731 c-0.763-1.298-1.374-2.671-1.908-4.044c-0.611-1.374-1.145-2.824-1.603-4.35c-0.381-0.992-0.611-1.908-0.839-2.976 c-0.229-0.839-0.458-1.755-0.611-2.671c-0.153-0.764-0.229-1.602-0.381-2.366c0-0.153-0.076-0.306-0.076-0.457 c-0.229-2.061-0.381-4.198-0.381-6.333V179.36L179.363,0.028h202.53c5.876,0,11.523,0.991,16.712,2.975 c14.194,4.961,25.412,16.255,30.372,30.372c0.992,2.443,1.679,4.961,2.137,7.556c0.305,1.449,0.458,2.976,0.611,4.426 C431.877,46.882,431.953,48.486,431.953,50.012z"></path> <path style="fill:#b38300;" d="M129.306,179.348c27.523,0,50.042-22.519,50.042-50.042V0L0,179.348H129.306z"></path> </g> <path style="opacity:0.06;fill:#040000;" d="M431.953,50.012V461.94c0,27.547-22.512,50.06-50.06,50.06H50.016 c-1.526,0-3.053-0.076-4.502-0.229c-1.526-0.076-2.976-0.305-4.426-0.61c-0.763-0.076-1.526-0.229-2.213-0.458 c-4.197-0.916-8.241-2.442-11.905-4.426c-0.076,0-0.076-0.076-0.076-0.076c-0.229-0.076-0.458-0.153-0.611-0.305 c-1.45-0.764-2.824-1.603-4.121-2.519c-1.602-0.992-3.129-2.137-4.502-3.434c-0.992-0.764-1.908-1.679-2.823-2.595 c-1.755-1.679-3.358-3.586-4.808-5.571c-0.458-0.61-0.916-1.297-1.374-1.908c-1.068-1.526-2.061-3.128-2.823-4.731 c-0.763-1.298-1.374-2.671-1.908-4.044c-0.611-1.374-1.145-2.824-1.603-4.35c-0.381-0.992-0.611-1.908-0.839-2.976 c-0.229-0.839-0.458-1.755-0.611-2.671l204.362-204.362l11.752-11.676l9.92-9.996h0.076L431.114,40.931 c0.305,1.449,0.458,2.976,0.611,4.426C431.877,46.882,431.953,48.486,431.953,50.012z"></path> </g> <path style="opacity:0.1;fill:#040000;" d="M431.495,447.898v11.294c0,27.473-22.512,49.984-49.984,49.984H49.634 c-10.989,0-21.215-3.586-29.456-9.692c-4.273-3.053-7.937-6.792-11.065-11.065c-3.739-5.19-6.563-11.066-8.089-17.476 c-0.229-0.688-0.381-1.449-0.534-2.213c0-0.153-0.076-0.306-0.076-0.457l2.518-2.441c0.305,0.762,0.611,1.526,0.916,2.289 c7.86,17.475,25.488,29.838,45.787,29.838h331.878C408.984,497.959,431.495,475.447,431.495,447.898z"></path> </g> </g></svg>
                         </a>
                         <div class="flex gap-5 justify-between items-center">
-                            <a class="border-2 text-white flex-1 hover:bg-white hover:text-red-600 border-red-600 py-2 bg-red-600 rounded-full" href="/home/<%= locals.files.id %>/delete/<%= file.id %>">
+                            <a data-id="delfile" class="border-2 text-white flex-1 hover:bg-white hover:text-red-600 border-red-600 py-2 bg-red-600 rounded-full" href="/home/<%= locals.files.id %>/delete/<%= file.id %>">
                                 <svg class="size-6 stroke-current mx-auto" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="currentColor" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 12V17" stroke="currentColor" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="currentColor" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="currentColor" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                             </a>
                             <a class="text-white bg-green-600 flex-1 py-2 rounded-full border-2 border-green-600 hover:text-green-800 hover:bg-white" href="/home/<%= locals.files.id%>/<%= file.id %>/download">
@@ -52,13 +53,7 @@
                 <% }) %>
             <% } %>  
         </section>
-
-
     </main>
-
-
-
-
-    
+ 
 </body>
 </html>

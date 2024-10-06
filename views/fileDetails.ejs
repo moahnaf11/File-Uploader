@@ -19,12 +19,12 @@
             minute: "2-digit",
             hour12: false,
         }) %>
-        <a class="px-3 py-2 border-2 max-w-max rounded-full border-white flex items-center hover:text-black hover:bg-white" href="/home/<%= locals.file.folderId %>">
+        <a class="px-3 font-custom font-bold py-2 border-2 max-w-max rounded-full border-white flex items-center hover:text-black hover:bg-white" href="/home/<%= locals.file.folderId %>">
             <svg class="size-6" viewBox="0 0 1024 1024" fill="currentColor" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="51.2"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M669.6 849.6c8.8 8 22.4 7.2 30.4-1.6s7.2-22.4-1.6-30.4l-309.6-280c-8-7.2-8-17.6 0-24.8l309.6-270.4c8.8-8 9.6-21.6 2.4-30.4-8-8.8-21.6-9.6-30.4-2.4L360.8 480.8c-27.2 24-28 64-0.8 88.8l309.6 280z" fill=""></path></g></svg>
             To Folder</a>
         <section class="min-h-screen flex justify-center items-center">
             <div class="min-w-[70%] sm:min-w-[50%] h-min rounded-xl bg-white flex flex-col gap-3 text-black p-3">
-                <h1 class="text-xl font-bold text-center">File Details</h1>
+                <h1 class="text-xl font-bold font-custom text-center">File Details</h1>
                 <h2 class="font-bold"><%= locals.file.name.split("--")[1] %></h1>
                 <div><%= locals.file.size + " Bytes" %></div>
                 <div><%= date %></div>
