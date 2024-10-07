@@ -120,8 +120,14 @@ const getLogOut = async (req, res, next) => {
 const getFileLink = async (req, res) => {
   const id = req.params.fileId;
   const file = await getFile(id);
-  const baseUrl = 'https://localhost:3000/share/' + id;
+  const baseUrl = 'http://localhost:3000/share/' + id;
   res.render("fileDetails", {user: req.user, file: file, url: baseUrl});
+}
+
+const getShare = async (req, res) => {
+  const id = req.params.fileId;
+  const file = await getFile(id);
+  res.redirect(file.url);
 }
 
 module.exports = {
@@ -131,5 +137,6 @@ module.exports = {
   postSignUp,
   postSignIn,
   getLogOut,
-  getFileLink
+  getFileLink,
+  getShare
 };

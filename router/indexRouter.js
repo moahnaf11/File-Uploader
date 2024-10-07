@@ -7,6 +7,7 @@ const {
   getLogOut,
   getFileDetails,
   getFileLink,
+  getShare,
 } = require("../controllers/indexController");
 
 const express = require("express");
@@ -16,6 +17,7 @@ router.get("/", getHomePage);
 router.route("/sign-in").get(getSignIn).post(postSignIn);
 router.route("/sign-up").get(getSignUp).post(postSignUp);
 router.get("/log-out", getLogOut);
-router.get("/share/:fileId", getFileLink);
+router.get("/share/:fileId", getShare);
+router.get("/:fileId", getFileLink);
 
 module.exports = router;
