@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/output.css" />
+    <script src="/js/showPasswordSignUp.js" defer></script>
     <title>Sign Up</title>
   </head>
   <body class="h-screen text-zinc-200 bg-gray-600">
     <%- include("appHeader", {user: locals.user}) %>
-    <main class="box-content h-full bg-gray-900 p-3 flex justify-center items-center">
+    <main class="box-content min-h-screen bg-gray-900 p-3 flex justify-center items-center">
       <!-- form submission errors -->
       <% let firstname, lastname, email ,password, confirmPassword %>
       <% if (locals.error && locals.error.length > 0) { %>
@@ -22,16 +23,17 @@
                 email = message; 
             }   else if (error.path === "password") { 
                 password = message; 
-                confirmPassword = "Confirm Password field can't be empty your input was " + (error.value || "empty");
-            }   else { 
-                password = message;
-                confirmPassword = message; 
-            } 
+            }   else if (error.path === "confirm" && error.msg === "Passwords do not match") { 
+                password = error.msg;
+                confirmPassword = error.msg; 
+            }   else {
+                confirmPassword = error.msg;
+            }
         }) %>
     <% } %>
 
       <form
-        class="rounded-3xl h-min shadow-lg shadow-gray-500/50 bg-white text-black p-3 flex flex-col gap-2 min-w-[40%] max-w-[40%]"
+        class="rounded-3xl h-min shadow-lg shadow-gray-500/50 bg-white text-black p-3 flex flex-col gap-2 sm:min-w-[60%] sm:max-w-[60%] lg:min-w-[40%] lg:max-w-[40%] min-w-[95%] max-w-[95%]"
         action="/sign-up"
         method="post"
       >
@@ -85,13 +87,17 @@
           <label for="password"
             >Password <span class="text-red-600">*</span></label
           >
-          <input
-            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="*****"
-          />
+          <div class="flex items-center relative">
+            <input
+              data-id="password"
+              class="px-2 py-1 pr-[70px] placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="*****"
+            />
+            <svg class="size-6 absolute left-[90%]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle> </g></svg>
+          </div>
           <span class="text-red-600"><%= password || "" %></span>
         </div>
 
@@ -99,13 +105,17 @@
           <label for="confirm"
             >Confirm Password <span class="text-red-600">*</span></label
           >
-          <input
-            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
-            type="password"
-            id="confirm"
-            name="confirm"
-            placeholder="*****"
-          />
+          <div class="flex items-center relative">
+            <input
+              data-id="confirm"
+              class="px-2 py-1 pr-[70px] placeholder:italic flex-1 min-w-32 border-2 border-black/50"
+              type="password"
+              id="confirm"
+              name="confirm"
+              placeholder="*****"
+            />
+            <svg class="size-6 absolute left-[90%]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle> </g></svg>
+          </div>
           <span class="text-red-600"><%= confirmPassword || "" %></span>
         </div>
 

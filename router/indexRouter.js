@@ -5,7 +5,6 @@ const {
   postSignUp,
   postSignIn,
   getLogOut,
-  getFileDetails,
   getFileLink,
   getShare,
 } = require("../controllers/indexController");
@@ -18,6 +17,6 @@ router.route("/sign-in").get(getSignIn).post(postSignIn);
 router.route("/sign-up").get(getSignUp).post(postSignUp);
 router.get("/log-out", getLogOut);
 router.get("/share/:fileId", getShare);
-router.get("/:fileId", getFileLink);
+router.get("/url/:fileId", getFileLink);
 
 module.exports = router;

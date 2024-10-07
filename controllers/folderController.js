@@ -116,11 +116,10 @@ const getFileDetails = async (req, res) => {
   res.render("fileDetails", { user: req.user, file: file });
 };
 
-
 module.exports = {
-    getFolderPage,
-    postFile,
-    deleteTheFile,
-    getFileDownload,
-    getFileDetails
-}
+  getFolderPage,
+  postFile,
+  deleteTheFile,
+  getFileDownload,
+  getFileDetails,
+};

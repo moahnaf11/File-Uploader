@@ -36,6 +36,9 @@ const signUpValidator = [
 
   body("confirm")
     .trim()
+    .notEmpty()
+    .withMessage("Confirm password field can't be empty")
+    .bail()
     .custom(async (value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords do not match");
@@ -120,15 +123,15 @@ const getLogOut = async (req, res, next) => {
 const getFileLink = async (req, res) => {
   const id = req.params.fileId;
   const file = await getFile(id);
-  const baseUrl = 'http://localhost:3000/share/' + id;
-  res.render("fileDetails", {user: req.user, file: file, url: baseUrl});
-}
+  const baseUrl = "http://localhost:3000/share/" + id;
+  res.render("fileDetails", { user: req.user, file: file, url: baseUrl });
+};
 
 const getShare = async (req, res) => {
   const id = req.params.fileId;
   const file = await getFile(id);
   res.redirect(file.url);
-}
+};
 
 module.exports = {
   getHomePage,
@@ -138,5 +141,5 @@ module.exports = {
   postSignIn,
   getLogOut,
   getFileLink,
-  getShare
+  getShare,
 };

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/output.css" />
+    <script src="/js/showPasswordLogIn.js" defer></script>
     <title>Sign In</title>
   </head>
   <body class="text-zinc-200 bg-gray-600 h-screen">
@@ -25,7 +26,7 @@
 
 
       <form
-        class="rounded-3xl bg-white text-black min-w-[40%] max-w-[40%] flex flex-col gap-3 p-3"
+        class="rounded-3xl bg-white text-black sm:min-w-[60%] sm:max-w-[60%] lg:min-w-[40%] lg:max-w-[40%] min-w-[95%] max-w-[95%] flex flex-col gap-3 p-3"
         action="/sign-in"
         method="post"
       >
@@ -53,13 +54,17 @@
           <label for="password"
             >Password <span class="text-red-600">*</span></label
           >
-          <input
-            class="px-2 py-1 placeholder:italic flex-1 min-w-32 border-2 border-black/50"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="*****"
-          />
+          <div class="flex items-center relative">
+            <input
+              data-id="password"
+              class="px-2 py-1 pr-[70px] border-2 border-black/50 placeholder:italic flex-1 min-w-3"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="*****"
+            />
+            <svg class="size-6 absolute left-[90%]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle> </g></svg>
+          </div>
           <span class="text-red-600"><%= password || ""  %></span>
         </div>
 
