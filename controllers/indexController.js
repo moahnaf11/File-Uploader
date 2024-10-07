@@ -123,7 +123,7 @@ const getLogOut = async (req, res, next) => {
 const getFileLink = async (req, res) => {
   const id = req.params.fileId;
   const file = await getFile(id);
-  const baseUrl = "http://localhost:3000/share/" + id;
+  const baseUrl = `${req.protocol}://${req.get("host")}/share/` + id;
   res.render("fileDetails", { user: req.user, file: file, url: baseUrl });
 };
 
