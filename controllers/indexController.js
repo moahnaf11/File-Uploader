@@ -68,7 +68,7 @@ const getHomePage = async (req, res) => {
 };
 
 const getSignIn = async (req, res) => {
-  res.render("signin", { fail: req.flash("error") });
+  res.render("signin");
 };
 
 const getSignUp = async (req, res) => {
@@ -103,11 +103,23 @@ const postSignIn = [
       return next();
     }
   }),
-  passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/sign-in",
-    failureFlash: true,
-  }),
+  async (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      } else if (!user) {
+        res.render("signin", { fail: info.message });
+      } else {
+        req.login(user, (err) => {
+          if (err) {
+            return next(err);
+          } else {
+            res.redirect("/home");
+          }
+        });
+      }
+    })(req, res, next);
+  },
 ];
 
 const getLogOut = async (req, res, next) => {

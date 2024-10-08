@@ -80,9 +80,7 @@
         </div>
 
         <div class="flex flex-1">
-          <% if (locals.fail && locals.fail.length > 0) { %>
-            <span class="text-red-600"><%= locals.fail.join(", ") %></span>
-          <% } %>
+          <span class="text-red-600"><%= locals.fail ? locals.fail : "" %></span>
         </div>
 
         <div class="flex flex-1">
